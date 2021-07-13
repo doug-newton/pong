@@ -12,4 +12,8 @@ export abstract class GameObject {
     }
 
     parent?: IGame
+
+    getParent(): IGame {
+        return this.parent!
+    }
 }
