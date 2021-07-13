@@ -9,7 +9,7 @@ export class Ball extends GameObject {
     pos: Vector2f = new Vector2f()
     vel: Vector2f = new Vector2f()
     radius: number = 10
-    style: Style = new Style("green", "fuchsia", 6, true, true);
+    style: Style = new Style("cyan", "white", 1, true, true);
 
     constructor() {
         super()
