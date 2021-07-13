@@ -1,11 +1,13 @@
 import { Ball } from "./ball";
 import { Canvas } from "./canvas";
 import { GameObject } from "./game-object";
+import { Paddle } from "./paddle";
 
 export class Game {
 
     constructor() {
         this.gameObjects.push(new Ball())
+        this.gameObjects.push(new Paddle())
     }
 
     private init() {
