@@ -1,7 +1,7 @@
 
 import { Style } from './style';
 
-const defaultStyle: Style = new Style("#000", "#000", 1, false, true)
+const defaultStyle: Style = new Style("white", "white", 1, false, true)
 
 class RenderUtil_Singleton {
 
