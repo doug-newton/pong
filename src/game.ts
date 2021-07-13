@@ -1,8 +1,11 @@
+import { Ball } from "./ball";
 import { Canvas } from "./canvas";
+import { GameObject } from "./game-object";
 
 export class Game {
 
     constructor() {
+        this.gameObjects.push(new Ball())
     }
 
     private init() {
@@ -10,6 +13,7 @@ export class Game {
     }
 
     private canvas: Canvas = new Canvas()
+    private gameObjects: GameObject[] = []
 
     private registerEventListeners() {
         document.addEventListener('mousedown', (ev: MouseEvent) => this.onMouseDown(ev));
@@ -32,9 +36,11 @@ export class Game {
 
     private draw(): void {
         this.canvas.clear()
+        this.gameObjects.forEach(o => o.draw(this.canvas.context));
     }
 
     private update() {
+        this.gameObjects.forEach(o => o.update());
     }
 
     private gameLoop() {
