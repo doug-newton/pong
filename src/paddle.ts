@@ -1,5 +1,5 @@
+import { Canvas } from "./canvas";
 import { GameObject } from "./game-object";
-import { GameSettings } from "./game-settings";
 import { RenderUtil } from "./render-util";
 import { Vector2f } from "./vector2f";
 
@@ -22,9 +22,10 @@ export class Paddle extends GameObject {
     }
 
     public onMouseMove(event: MouseEvent) {
+        let canvas: Canvas = this.getParent().getCanvasObject()
         let cursor = new Vector2f()
-        cursor.x = (event.pageX)
-        cursor.y = (event.pageY)
+        cursor.x = (event.pageX - canvas.canvas.offsetLeft)
+        cursor.y = (event.pageY - canvas.canvas.offsetTop)
         this.pos.x = cursor.x
         this.pos.y = cursor.y
     }
