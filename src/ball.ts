@@ -29,8 +29,8 @@ export class Ball extends GameObject {
 
     private checkBoundsCollision(): void {
         let radius: number = this.radius
-        let width: number = GameSettings.width
-        let height: number = GameSettings.height
+        let width: number = GameSettings.canvasDimensions.w
+        let height: number = GameSettings.canvasDimensions.h
 
         if (this.pos.x > width - radius) {
             this.pos.x = width - radius;

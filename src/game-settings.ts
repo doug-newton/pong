@@ -1,18 +1,16 @@
+import { Vector2f } from "./vector2f"
+
 interface GameSettingsConfig {
-    width: number 
-    height: number 
+    canvasDimensions: Vector2f
 }
 
 class GameSettings_Singleton {
-    constructor(config: GameSettingsConfig){
-        this.width = config.width
-        this.height = config.height
+    constructor(config: GameSettingsConfig) {
+        this.canvasDimensions = config.canvasDimensions
     }
-    width: number
-    height: number
+    canvasDimensions: Vector2f
 }
 
 export const GameSettings: GameSettings_Singleton = new GameSettings_Singleton({
-    width: 1280,
-    height: 560
+    canvasDimensions: new Vector2f(1280, 560)
 })
