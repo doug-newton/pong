@@ -1,6 +1,7 @@
 import { GameObject } from "./game-object";
 import { GameSettings } from "./game-settings";
 import { RenderUtil } from "./render-util";
+import { Style } from "./style";
 import { Vector2f } from "./vector2f";
 
 export class Ball extends GameObject {
@@ -8,6 +9,7 @@ export class Ball extends GameObject {
     pos: Vector2f = new Vector2f()
     vel: Vector2f = new Vector2f()
     radius: number = 25
+    style: Style = new Style("green", "fuchsia", 6, true, true);
 
     constructor() {
         super()
@@ -16,7 +18,7 @@ export class Ball extends GameObject {
     }
 
     public override draw(canvas: CanvasRenderingContext2D): void {
-        RenderUtil.drawCircle(canvas, this.pos.x, this.pos.y, this.radius);
+        RenderUtil.drawCircle(canvas, this.pos.x, this.pos.y, this.radius, this.style);
     }
 
     public override update(): void {

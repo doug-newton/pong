@@ -1,4 +1,6 @@
 import { GameSettings } from "./game-settings";
+import { RenderUtil } from "./render-util";
+import { Style } from "./style";
 
 export class Canvas {
 
@@ -11,8 +13,9 @@ export class Canvas {
 
     canvas: HTMLCanvasElement
     context: CanvasRenderingContext2D
+    style: Style = new Style("black", "black", 1, true, true)
 
     clear(){
-        this.context.clearRect(0, 0, GameSettings.width, GameSettings.height)
+        RenderUtil.drawRect(this.context, 0, 0, GameSettings.width, GameSettings.height, this.style)
     }
 }
