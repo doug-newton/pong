@@ -13,6 +13,6 @@ class GameSettings_Singleton {
 }
 
 export const GameSettings: GameSettings_Singleton = new GameSettings_Singleton({
-    width: 640,
-    height: 480
+    width: 1280,
+    height: 560
 })
