@@ -26,12 +26,15 @@ export class Game {
     }
 
     private onMouseDown(event: MouseEvent): void{
+        this.gameObjects.forEach(o => o.onMouseDown(event));
     }
 
     private onMouseUp(event: MouseEvent): void{
+        this.gameObjects.forEach(o => o.onMouseUp(event));
     }
 
     private onMouseMove(event: MouseEvent): void{
+        this.gameObjects.forEach(o => o.onMouseMove(event));
     }
 
     private draw(): void {
