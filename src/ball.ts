@@ -1,15 +1,13 @@
 import { GameObject } from "./game-object";
+import { GameSettings } from "./game-settings";
 import { RenderUtil } from "./render-util";
-
-class Vector2f {
-    x: number = 0
-    y: number = 0
-}
+import { Vector2f } from "./vector2f";
 
 export class Ball extends GameObject {
 
     pos: Vector2f = new Vector2f()
     vel: Vector2f = new Vector2f()
+    radius: number = 25
 
     constructor() {
         super()
@@ -18,7 +16,7 @@ export class Ball extends GameObject {
     }
 
     public override draw(canvas: CanvasRenderingContext2D): void {
-        RenderUtil.drawCircle(canvas, this.pos.x, this.pos.y, 50);
+        RenderUtil.drawCircle(canvas, this.pos.x, this.pos.y, this.radius);
     }
 
     public override update(): void {
@@ -28,25 +26,25 @@ export class Ball extends GameObject {
     }
 
     private checkBoundsCollision(): void {
-        let radius: number = 50
-        let width: number = 640
-        let height: number = 480
+        let radius: number = this.radius
+        let width: number = GameSettings.width
+        let height: number = GameSettings.height
 
-        if (this.pos.x > width - radius){
+        if (this.pos.x > width - radius) {
             this.pos.x = width - radius;
             this.vel.x = -this.vel.x
         }
-        else if (this.pos.x < 0 + radius){
+        else if (this.pos.x < 0 + radius) {
             this.pos.x = 0 + radius
             this.vel.x = -this.vel.x
         }
 
-        if (this.pos.y > height - radius){
+        if (this.pos.y > height - radius) {
             this.pos.y = height - radius;
             this.vel.y = -this.vel.y
         }
-        else if (this.pos.y < 0 + radius){
-            this.pos.y = 0+ radius
+        else if (this.pos.y < 0 + radius) {
+            this.pos.y = 0 + radius
             this.vel.y = -this.vel.y
         }
     }
