@@ -24,6 +24,9 @@ export class BaseGame implements IGame {
         document.addEventListener('mousedown', (ev: MouseEvent) => this.onMouseDown(ev));
         document.addEventListener('mouseup', (ev: MouseEvent) => this.onMouseUp(ev));
         document.addEventListener('mousemove', (ev: MouseEvent) => this.onMouseMove(ev));
+        document.addEventListener('keydown', (ev: KeyboardEvent) => this.onKeyDown(ev));
+        document.addEventListener('keypress', (ev: KeyboardEvent) => this.onKeyPress(ev));
+        document.addEventListener('keyup', (ev: KeyboardEvent) => this.onKeyUp(ev));
         document.addEventListener('contextmenu', e => {
             e.preventDefault();
             return false;
@@ -40,6 +43,18 @@ export class BaseGame implements IGame {
 
     protected onMouseMove(event: MouseEvent): void{
         this.gameObjects.forEach(o => o.onMouseMove(event));
+    }
+
+    protected onKeyDown(event: KeyboardEvent): void {
+        this.gameObjects.forEach(o => o.onKeyDown(event));
+    }
+
+    protected onKeyPress(event: KeyboardEvent): void {
+        this.gameObjects.forEach(o => o.onKeyPress(event));
+    }
+
+    protected onKeyUp(event: KeyboardEvent): void {
+        this.gameObjects.forEach(o => o.onKeyUp(event));
     }
 
     protected draw(): void {

@@ -6,6 +6,9 @@ export abstract class GameObject {
     public onMouseDown(event: MouseEvent): void { }
     public onMouseUp(event: MouseEvent): void { }
     public onMouseMove(event: MouseEvent): void { }
+    public onKeyDown(event: KeyboardEvent): void { }
+    public onKeyPress(event: KeyboardEvent): void { }
+    public onKeyUp(event: KeyboardEvent): void { }
 
     onRegister(game: IGame): void {
         this.parent = game;
