@@ -1,4 +1,5 @@
 import { Canvas } from "./canvas";
+import { CollisionDetector } from "./collision-detector";
 import { GameObject } from "./game-object";
 import { IGame } from "./i-game";
 
@@ -17,6 +18,7 @@ export class BaseGame implements IGame {
         return this.canvas
     }
 
+    protected collisionDetector: CollisionDetector = new CollisionDetector()
     protected canvas: Canvas = new Canvas()
     protected gameObjects: GameObject[] = []
 
@@ -64,6 +66,7 @@ export class BaseGame implements IGame {
 
     protected update() {
         this.gameObjects.forEach(o => o.update());
+        this.collisionDetector.detectCollisions();
     }
 
     protected gameLoop() {
