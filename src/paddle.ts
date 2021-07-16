@@ -30,7 +30,7 @@ export class Paddle extends Collidable {
         <CollisionByStander>byStander.allowPaddle(this, peer);
     }
 
-    style: Style = new Style("white", "cyan", 1, true, true);
+    style: Style = new Style("white", "red", 1, true, true);
 
     pos: Vector2f = new Vector2f()
     dim: Vector2f = new Vector2f()
