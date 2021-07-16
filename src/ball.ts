@@ -1,10 +1,28 @@
+import { Collidable } from "./collidable";
 import { GameObject } from "./game-object";
 import { GameSettings } from "./game-settings";
+import { Paddle } from "./paddle";
 import { RenderUtil } from "./render-util";
 import { Style } from "./style";
+import { TLBB } from "./tlbb";
 import { Vector2f } from "./vector2f";
 
-export class Ball extends GameObject {
+export class Ball extends Collidable {
+
+    getTLBB(): TLBB {
+        return {
+            top: this.pos.y,
+            left: this.pos.x,
+            width: this.radius,
+            height: this.radius,
+        }
+    }
+
+    override collideWithPaddle(gameObject: GameObject) {
+        let paddle: Paddle = <Paddle>gameObject;
+        console.log('colliding with paddle!')
+        this.vel.y = -this.vel.y;
+    }
 
     pos: Vector2f = new Vector2f()
     vel: Vector2f = new Vector2f()

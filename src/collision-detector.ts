@@ -1,25 +1,30 @@
-/*    top-left-aligned bounding box    */
-
-interface TLBB {
-    top: number
-    left: number
-    width: number
-    height: number
-}
+import { Collidable } from "./collidable";
+import { CollisionByStander } from "./collision-by-stander";
+import { TLBB } from "./tlbb";
 
 export class CollisionDetector {
     tlbbs: TLBB[] = []
 
-    detectCollision(): void {
-        for (let i: number = 0; i < this.tlbbs.length; i++) {
-            for (let j: number = 0; j < this.tlbbs.length; j++) {
+    collidables: Collidable[] = []
+    collisionByStander: CollisionByStander = new CollisionByStander()
+
+    registerCollidable(collidable: Collidable) {
+        this.collidables.push(collidable)
+    }
+
+    detectCollisions(): void {
+        for (let i: number = 0; i < this.collidables.length; i++) {
+            for (let j: number = 0; j < this.collidables.length; j++) {
                 if (i == j) continue;
 
-                let a: TLBB = this.tlbbs[i]
-                let b: TLBB = this.tlbbs[j]
+                let a: Collidable = this.collidables[i]
+                let b: Collidable = this.collidables[j]
 
-                if (this.collide(a, b)) {
+                let abox: TLBB = a.getTLBB();
+                let bbox: TLBB = b.getTLBB();
 
+                if (this.collide(abox, bbox)) {
+                    a.standBy(this.collisionByStander, b);
                 }
             }
         }

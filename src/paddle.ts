@@ -1,17 +1,33 @@
 import { Canvas } from "./canvas";
+import { Collidable } from "./collidable";
+import { CollisionByStander } from "./collision-by-stander";
 import { GameObject } from "./game-object";
 import { GameSettings } from "./game-settings";
 import { RenderUtil } from "./render-util";
 import { Style } from "./style";
+import { TLBB } from "./tlbb";
 import { Vector2f } from "./vector2f";
 
-export class Paddle extends GameObject {
+export class Paddle extends Collidable {
 
     constructor() {
         super()
         this.pos = new Vector2f(0,0);
         this.dim = new Vector2f(200, 20);
         this.pos.y = GameSettings.canvasDimensions.h - 50
+    }
+
+    getTLBB(): TLBB {
+        return {
+            top: this.pos.y,
+            left: this.pos.x,
+            width: this.dim.w,
+            height: this.dim.h,
+        }
+    }
+
+    override standBy(byStander: any, peer: Collidable): void {
+        <CollisionByStander>byStander.allowPaddle(this, peer);
     }
 
     style: Style = new Style("white", "cyan", 1, true, true);
