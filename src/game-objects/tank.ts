@@ -29,6 +29,8 @@ export class Tank extends GameObject {
     }
 
     public update(): void {
+        if (!this.canGoForwards() && this.goingUp()) 
+            this.stopY()
         this.move();
         this.faceAimPos();
     }
@@ -61,6 +63,9 @@ export class Tank extends GameObject {
                 {
                     if (this.goingUp()) {
                         this.stopY();
+                    }
+                    else {
+                        this.breaking = false
                     }
                 }
                 break;
@@ -107,16 +112,23 @@ export class Tank extends GameObject {
         this.parent!.registerGameObject(bullet)
     }
 
+    private breaking: boolean = false
+
     private goForwards() {
+        if (!this.canGoForwards()) 
+            return
         this.speed = -this.power
     }
 
     private goBackwards() {
+        if (this.breaking) 
+            return false
         this.speed = this.reversePower
     }
 
     private stopY() {
         this.speed = 0;
+        this.breaking = true
     }
 
     private goingUp(): boolean {
@@ -125,5 +137,16 @@ export class Tank extends GameObject {
 
     private goingDown(): boolean {
         return this.speed > 0
+    }
+
+    private canGoForwards(): boolean {
+        if (this.breaking)
+            return false
+        let targetTransform: Vector2f = new Vector2f(
+            this.target.x - this.position.x,
+            this.target.y - this.position.y
+        )
+        let difference = targetTransform.x * targetTransform.x + targetTransform.y * targetTransform.y
+        return difference >= 85 * 85;
     }
 }
