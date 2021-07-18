@@ -45,8 +45,7 @@ class RenderUtil_Singleton {
         context.save();
         context.translate(x, y);
         context.rotate(rotation);
-        this.drawLine(context, 0, 0, 0, -70);
-        this.drawCircle(context, 0, -70, 5)
+        context.strokeRect(-5, -75, 10, 75);
         context.translate(-w / 2, -h / 2);
         this.applyStyle(context, style);
         if (style.bFill)
