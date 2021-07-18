@@ -25,7 +25,7 @@ export class Bullet extends GameObject {
         )
 
         let randomColorIndex = Math.floor(Math.random() * this.colors.length)
-        this.style.fillColor = this.colors[randomColorIndex]
+        this.style.strokeColor = this.colors[randomColorIndex]
     }
 
     colors: string[] = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'magenta']

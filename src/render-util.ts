@@ -22,10 +22,10 @@ class RenderUtil_Singleton {
         context.beginPath();
         this.applyStyle(context, style);
         context.arc(x0, y0, r, 0, 2 * Math.PI, false)
-        if (style.bStroke)
-            context.stroke()
         if (style.bFill)
             context.fill()
+        if (style.bStroke)
+            context.stroke()
     }
 
     drawRect(context: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, rotation: number = 0, style: Style = defaultStyle) {
@@ -43,11 +43,11 @@ class RenderUtil_Singleton {
 
     drawTank(context: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, rotation: number = 0, style: Style = defaultStyle) {
         context.save();
+        this.applyStyle(context, style);
         context.translate(x, y);
         context.rotate(rotation);
         context.strokeRect(-5, -75, 10, 75);
         context.translate(-w / 2, -h / 2);
-        this.applyStyle(context, style);
         if (style.bFill)
             context.fillRect(0, 0, w, h);
         if (style.bStroke)
