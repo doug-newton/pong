@@ -13,6 +13,10 @@ class RenderUtil_Singleton {
         context.stroke();
     }
 
+    drawText(context: CanvasRenderingContext2D, x: number, y: number, text: string, style: Style = defaultStyle) {
+        context.strokeText(text, x, y);
+    }
+
     drawCircle(context: CanvasRenderingContext2D, x0: number, y0: number, r: number, style: Style = defaultStyle) {
         context.beginPath();
         this.applyStyle(context, style);
