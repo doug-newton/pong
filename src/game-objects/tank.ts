@@ -5,41 +5,41 @@ import { Vector2f } from "../vector2f";
 
 export class Tank extends GameObject {
 
-    pos: Vector2f = new Vector2f()
-    dim: Vector2f = new Vector2f()
-    vel: Vector2f = new Vector2f()
-    rot: number = 0
-    aimPos: Vector2f = new Vector2f()
+    position: Vector2f = new Vector2f()
+    size: Vector2f = new Vector2f()
+    relativeVelocity: Vector2f = new Vector2f()
+    rotation: number = 0
+    target: Vector2f = new Vector2f()
 
     constructor() {
         super()
-        this.dim = new Vector2f(50, 70)
-        this.pos.x = 300
-        this.pos.y = 300
+        this.size = new Vector2f(50, 70)
+        this.position.x = 300
+        this.position.y = 300
     }
 
     public draw(context: CanvasRenderingContext2D): void {
-        RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h, this.rot)
-        RenderUtil.drawLine(context, this.pos.x, this.pos.y, this.aimPos.x, this.aimPos.y)
-        RenderUtil.drawCircle(context, this.aimPos.x, this.aimPos.y, 5)
-        RenderUtil.drawText(context, 50, 50, `rotation: ${this.rot}`)
+        RenderUtil.drawRect(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation)
+        RenderUtil.drawLine(context, this.position.x, this.position.y, this.target.x, this.target.y)
+        RenderUtil.drawCircle(context, this.target.x, this.target.y, 5)
+        RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`)
     }
 
     public update(): void {
-        this.pos.x += this.vel.x
-        this.pos.y += this.vel.y
+        this.position.x += this.relativeVelocity.x
+        this.position.y += this.relativeVelocity.y
         this.faceAimPos();
     }
 
     public onMouseMove(event: MouseEvent) {
         let canvas: Canvas = this.parent!.getCanvasObject()
-        this.aimPos.x = event.pageX - canvas.canvas.offsetLeft;
-        this.aimPos.y = event.pageY - canvas.canvas.offsetTop;
+        this.target.x = event.pageX - canvas.canvas.offsetLeft;
+        this.target.y = event.pageY - canvas.canvas.offsetTop;
     }
 
     private faceAimPos() {
-        let trans = (this.aimPos.y - this.pos.y) / (this.aimPos.x - this.pos.x)
-        this.rot = Math.atan(trans) + Math.PI / 2
+        let trans = (this.target.y - this.position.y) / (this.target.x - this.position.x)
+        this.rotation = Math.atan(trans) + Math.PI / 2
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -98,48 +98,48 @@ export class Tank extends GameObject {
     speed: number = 2
 
     public goUp() {
-        this.vel.y = -this.speed
+        this.relativeVelocity.y = -this.speed
     }
 
     public goDown() {
-        this.vel.y = this.speed
+        this.relativeVelocity.y = this.speed
     }
 
     public goLeft() {
-        this.vel.x = -this.speed
+        this.relativeVelocity.x = -this.speed
     }
 
     public goRight() {
-        this.vel.x = this.speed
+        this.relativeVelocity.x = this.speed
     }
 
     public stopX() {
-        this.vel.x = 0;
+        this.relativeVelocity.x = 0;
     }
 
     public stopY() {
-        this.vel.y = 0;
+        this.relativeVelocity.y = 0;
     }
 
     public stop() {
-        this.vel.x = 0;
-        this.vel.y = 0;
+        this.relativeVelocity.x = 0;
+        this.relativeVelocity.y = 0;
     }
 
     goingUp(): boolean {
-        return this.vel.y < 0
+        return this.relativeVelocity.y < 0
     }
 
     goingDown(): boolean {
-        return this.vel.y > 0
+        return this.relativeVelocity.y > 0
     }
 
     goingLeft(): boolean {
-        return this.vel.x < 0
+        return this.relativeVelocity.x < 0
     }
 
     goingRight(): boolean {
-        return this.vel.x > 0
+        return this.relativeVelocity.x > 0
     }
 
 }
