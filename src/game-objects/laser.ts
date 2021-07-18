@@ -67,41 +67,65 @@ export class Laser extends GameObject {
             new Vector2f(x, y),
         )
 
-        for (let i: number = 0; i < 2; i++) {
-            let reflection: Reflection = this.nextIntersection(x, y, m)
+        let negativeRotation: boolean = this.tank.rotation < 0
+
+        for (let i: number = 0; i < 4; i++)
+        {
+            let reflection: Reflection = this.nextIntersection(x, y, m, negativeRotation)
+            let boundCollisionType: BoundCollisionType = reflection.boundCollisionType
+
             let nextPoint: Vector2f = reflection.pos
             this.points.push(nextPoint);
-            dx = x - nextPoint.x
-            dy = y - nextPoint.y
-            m = dy / dx
+
+            dx = nextPoint.x - x
+            dy = nextPoint.y - y
+
             x = nextPoint.x
             y = nextPoint.y
+
+            negativeRotation = !negativeRotation
+            m = -m
         }
 
-        this.points.push(
-            new Vector2f(350, 350),
-            new Vector2f(500, 400)
-        )
+        let a = 3
+        if (a==4)
+        {
+            negativeRotation = !negativeRotation
+
+            let myPoint: Vector2f = new Vector2f(50, 300)
+            this.points.push(myPoint);
+
+            x = myPoint.x
+            y = myPoint.y
+            m = 0.5
+
+            let reflection: Reflection = this.nextIntersection(x, y, m, negativeRotation)
+            let boundCollisionType: BoundCollisionType = reflection.boundCollisionType
+
+            let nextPoint: Vector2f = reflection.pos
+            this.points.push(nextPoint);
+        }
     }
 
-    nextIntersection(x: number, y: number, m: number): Reflection {
+    nextIntersection(x: number, y: number, m: number, negativeRotation: boolean): Reflection {
         let leftBound: number = 0
         let topBound: number = 0
         let rightBound: number = GameSettings.canvasDimensions.w
         let bottomBound: number = GameSettings.canvasDimensions.h
         let boundCollisionType: BoundCollisionType = BoundCollisionType.NONE
 
-        let c = y - x * m
+        let c: number = 0
         let xx: number = 0;
         let yy: number = 0;
 
-        if (this.tank.rotation < 0) {
+        if (negativeRotation) {
             xx = 0
         }
         else {
             xx = rightBound
         }
 
+        c = y - x * m
         yy = m * xx + c
 
         if (topBound < yy && yy < bottomBound) {
@@ -122,5 +146,6 @@ export class Laser extends GameObject {
         }
 
         return new Reflection(new Vector2f(xx, yy), boundCollisionType)
+
     }
 }
