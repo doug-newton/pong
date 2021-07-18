@@ -38,8 +38,8 @@ export class Game extends BaseGame {
     }
 
     createBricks() {
-        for (let y = 0; y < 5; y++) {
-            for (let x = 0; x < 5; x++) {
+        for (let y = 0; y < 9; y++) {
+            for (let x = 0; x < 19; x++) {
                 let brick: Brick = new Brick(x, y)
                 this.bricks.push(brick)
             }
