@@ -42,10 +42,10 @@ export class Tank extends GameObject {
     public onKeyDown(event: KeyboardEvent) {
         switch (event.key) {
             case 'w':
-                this.goUp();
+                this.goForwards();
                 break;
             case 's':
-                this.goDown();
+                this.goBackwards();
                 break;
             case ' ':
                 this.shoot();
@@ -107,11 +107,11 @@ export class Tank extends GameObject {
         this.parent!.registerGameObject(bullet)
     }
 
-    private goUp() {
+    private goForwards() {
         this.speed = -this.power
     }
 
-    private goDown() {
+    private goBackwards() {
         this.speed = this.reversePower
     }
 
