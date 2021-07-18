@@ -52,7 +52,7 @@ export class Bullet extends GameObject {
             this.velocity.x = -this.velocity.x
         }
 
-        if (this.position.y < leftBound) {
+        if (this.position.y < topBound) {
             this.velocity.y = -this.velocity.y
         }
 
