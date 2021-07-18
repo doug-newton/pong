@@ -5,6 +5,19 @@ import { Style } from "../style";
 import { Vector2f } from "../vector2f";
 import { Tank } from "./tank";
 
+enum BoundCollisionType {
+    NONE, TOP, RIGHT, LEFT, BOTTOM
+}
+
+class Reflection {
+    pos: Vector2f
+    boundCollisionType: BoundCollisionType
+    constructor(pos: Vector2f, boundCollisionType: BoundCollisionType) {
+        this.pos = new Vector2f(pos.x, pos.y)
+        this.boundCollisionType = boundCollisionType
+    }
+}
+
 export class Laser extends GameObject {
 
     tank: Tank
@@ -45,24 +58,38 @@ export class Laser extends GameObject {
         let x1: number = this.tank.position.x - Math.cos(this.tank.rotation + Math.PI / 2) * 2000;
         let y1: number = this.tank.position.y - Math.sin(this.tank.rotation + Math.PI / 2) * 2000;
 
-        let gradient = (y1 - y) / (x1 - x)
+        let dx: number = x1 - x
+        let dy: number = y1 - y
+        let gradient = dy / dx
         let m = gradient
-
-        let nextPoint: Vector2f = this.nextIntersection(x, y, m)
 
         this.points.push(
             new Vector2f(x, y),
-            nextPoint,
+        )
+
+        for (let i: number = 0; i < 2; i++) {
+            let reflection: Reflection = this.nextIntersection(x, y, m)
+            let nextPoint: Vector2f = reflection.pos
+            this.points.push(nextPoint);
+            dx = x - nextPoint.x
+            dy = y - nextPoint.y
+            m = dy / dx
+            x = nextPoint.x
+            y = nextPoint.y
+        }
+
+        this.points.push(
             new Vector2f(350, 350),
             new Vector2f(500, 400)
         )
     }
 
-    nextIntersection(x: number, y: number, m: number) {
+    nextIntersection(x: number, y: number, m: number): Reflection {
         let leftBound: number = 0
         let topBound: number = 0
         let rightBound: number = GameSettings.canvasDimensions.w
         let bottomBound: number = GameSettings.canvasDimensions.h
+        let boundCollisionType: BoundCollisionType = BoundCollisionType.NONE
 
         let c = y - x * m
         let xx: number = 0;
@@ -77,6 +104,23 @@ export class Laser extends GameObject {
 
         yy = m * xx + c
 
-        return new Vector2f(xx, yy)
+        if (topBound < yy && yy < bottomBound) {
+            if (xx == 0) {
+                boundCollisionType = BoundCollisionType.LEFT
+            }
+            else if (x == rightBound) {
+                boundCollisionType = BoundCollisionType.RIGHT
+            }
+        }
+        else if (leftBound < x && x < rightBound) {
+            if (yy == 0) {
+                boundCollisionType = BoundCollisionType.TOP
+            }
+            else if (yy == bottomBound) {
+                boundCollisionType = BoundCollisionType.BOTTOM
+            }
+        }
+
+        return new Reflection(new Vector2f(xx, yy), boundCollisionType)
     }
 }
