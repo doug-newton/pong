@@ -1,6 +1,14 @@
+import { GameSettings } from "./game-settings";
 import { IGame } from "./i-game";
 
 export abstract class GameObject {
+
+    public id: number
+
+    constructor() {
+        this.id = GameSettings.getNextID()
+    }
+
     public abstract draw(context: CanvasRenderingContext2D): void
     public abstract update(): void
     public onMouseDown(event: MouseEvent): void { }

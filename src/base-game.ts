@@ -9,6 +9,12 @@ export class BaseGame implements IGame {
         o.onRegister(this)
     }
 
+    public unregisterGameObject(o: GameObject){
+        this.gameObjects = this.gameObjects.filter(obj=>{
+            return obj.id !== o.id
+        })
+    }
+
     protected init() {
         this.registerEventListeners()
     }

@@ -9,6 +9,10 @@ class GameSettings_Singleton {
         this.canvasDimensions = config.canvasDimensions
     }
     canvasDimensions: Vector2f
+    lastGameObjectID: number = 0
+    getNextID(): number {
+        return this.lastGameObjectID ++
+    }
 }
 
 export const GameSettings: GameSettings_Singleton = new GameSettings_Singleton({

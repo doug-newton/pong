@@ -11,6 +11,8 @@ export class Bullet extends GameObject {
     rotation: number
     velocity: Vector2f = new Vector2f()
     style: Style = new Style("white", "white", 1, true, true)
+    maxBounces: number = 3
+    numBounces: number = 0
 
     constructor(rotation: number, speed: number) {
         super();
@@ -22,11 +24,11 @@ export class Bullet extends GameObject {
             Math.sin(this.rotation - Math.PI / 2) * this.speed
         )
 
-        let randomColorIndex = Math.floor(Math.random()*this.colors.length)
+        let randomColorIndex = Math.floor(Math.random() * this.colors.length)
         this.style.fillColor = this.colors[randomColorIndex]
     }
 
-    colors: string[] = ['white','red','green','blue','yellow','orange','magenta']
+    colors: string[] = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'magenta']
 
     public draw(context: CanvasRenderingContext2D): void {
         RenderUtil.drawCircle(context, this.position.x, this.position.y, 5, this.style)
@@ -45,19 +47,35 @@ export class Bullet extends GameObject {
         let bottomBound: number = GameSettings.canvasDimensions.y
 
         if (this.position.x < leftBound) {
-            this.velocity.x = -this.velocity.x
+            this.bounceX()
         }
 
         if (this.position.x > rightBound) {
-            this.velocity.x = -this.velocity.x
+            this.bounceX()
         }
 
         if (this.position.y < topBound) {
-            this.velocity.y = -this.velocity.y
+            this.bounceY()
         }
 
         if (this.position.y > bottomBound) {
-            this.velocity.y = -this.velocity.y
+            this.bounceY()
+        }
+    }
+
+    private bounceX() {
+        this.velocity.x = -this.velocity.x
+        this.numBounces ++
+        if (this.numBounces > this.maxBounces) {
+            this.parent!.unregisterGameObject(this)
+        }
+    }
+
+    private bounceY() {
+        this.velocity.y = -this.velocity.y
+        this.numBounces ++
+        if (this.numBounces > this.maxBounces) {
+            this.parent!.unregisterGameObject(this)
         }
     }
 
