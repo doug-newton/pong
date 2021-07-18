@@ -14,7 +14,7 @@ export class Canvas {
 
     canvas: HTMLCanvasElement
     context: CanvasRenderingContext2D
-    style: Style = new Style("white", "white", 1, true, true)
+    style: Style = new Style("black", "black", 1, true, true)
 
     clear() {
         RenderUtil.drawRect(

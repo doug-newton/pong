@@ -1,7 +1,7 @@
 
 import { Style } from './style';
 
-const defaultStyle: Style = new Style("#000", "#000", 1, false, true)
+const defaultStyle: Style = new Style("white", "white", 1, false, true)
 
 class RenderUtil_Singleton {
 
@@ -14,6 +14,7 @@ class RenderUtil_Singleton {
     }
 
     drawText(context: CanvasRenderingContext2D, x: number, y: number, text: string, style: Style = defaultStyle) {
+        this.applyStyle(context, style)
         context.strokeText(text, x, y);
     }
 
