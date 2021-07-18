@@ -1,3 +1,4 @@
+import { Canvas } from "../canvas";
 import { GameObject } from "../game-object";
 import { RenderUtil } from "../render-util";
 import { Vector2f } from "../vector2f";
@@ -7,19 +8,32 @@ export class Tank extends GameObject {
     pos: Vector2f = new Vector2f()
     dim: Vector2f = new Vector2f()
     vel: Vector2f = new Vector2f()
+    rot: number = 0
+    aimPos: Vector2f = new Vector2f()
 
     constructor() {
         super()
         this.dim = new Vector2f(50, 70)
+        this.pos.x = 300
+        this.pos.y = 300
     }
 
     public draw(context: CanvasRenderingContext2D): void {
-        RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h)
+        RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h, this.rot)
+        RenderUtil.drawLine(context, this.pos.x, this.pos.y, this.aimPos.x, this.aimPos.y)
+        RenderUtil.drawCircle(context, this.aimPos.x, this.aimPos.y, 5)
     }
 
     public update(): void {
         this.pos.x += this.vel.x
         this.pos.y += this.vel.y
+        this.rot += 0.05
+    }
+
+    public onMouseMove(event: MouseEvent) {
+        let canvas: Canvas = this.parent!.getCanvasObject()
+        this.aimPos.x = event.pageX - canvas.canvas.offsetLeft;
+        this.aimPos.y = event.pageY - canvas.canvas.offsetTop;
     }
 
     public onKeyDown(event: KeyboardEvent) {
