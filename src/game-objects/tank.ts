@@ -28,12 +28,16 @@ export class Tank extends GameObject {
     public update(): void {
         this.pos.x += this.vel.x
         this.pos.y += this.vel.y
+        this.faceAimPos();
     }
 
     public onMouseMove(event: MouseEvent) {
         let canvas: Canvas = this.parent!.getCanvasObject()
         this.aimPos.x = event.pageX - canvas.canvas.offsetLeft;
         this.aimPos.y = event.pageY - canvas.canvas.offsetTop;
+    }
+
+    private faceAimPos() {
         let trans = (this.aimPos.y - this.pos.y) / (this.aimPos.x - this.pos.x)
         this.rot = Math.atan(trans) + Math.PI / 2
     }
