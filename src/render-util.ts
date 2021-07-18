@@ -55,6 +55,11 @@ class RenderUtil_Singleton {
         context.restore();
     }
 
+    drawCrosshair(context: CanvasRenderingContext2D, x: number, y: number, crossHairSize: number = 10) {
+        RenderUtil.drawLine(context, x - crossHairSize, y, x + crossHairSize, y);
+        RenderUtil.drawLine(context, x, y - crossHairSize, x, y + crossHairSize);
+    }
+
     applyStyle(context: CanvasRenderingContext2D, style: Style) {
         style.apply(context)
     }

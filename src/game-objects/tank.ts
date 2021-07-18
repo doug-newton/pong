@@ -24,7 +24,7 @@ export class Tank extends GameObject {
 
     public draw(context: CanvasRenderingContext2D): void {
         RenderUtil.drawTank(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation);
-        this.drawCrossHair(context);
+        RenderUtil.drawCrosshair(context, this.target.x, this.target.y);
         RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`);
     }
 
@@ -79,12 +79,6 @@ export class Tank extends GameObject {
             default:
                 break;
         }
-    }
-
-    private drawCrossHair(context: CanvasRenderingContext2D) {
-        let crossHairSize = 10;
-        RenderUtil.drawLine(context, this.target.x - crossHairSize, this.target.y, this.target.x + crossHairSize, this.target.y);
-        RenderUtil.drawLine(context, this.target.x, this.target.y - crossHairSize, this.target.x, this.target.y + crossHairSize);
     }
 
     private move(): void {
