@@ -22,18 +22,20 @@ export class Tank extends GameObject {
         RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h, this.rot)
         RenderUtil.drawLine(context, this.pos.x, this.pos.y, this.aimPos.x, this.aimPos.y)
         RenderUtil.drawCircle(context, this.aimPos.x, this.aimPos.y, 5)
+        RenderUtil.drawText(context, 50, 50, `rotation: ${this.rot}`)
     }
 
     public update(): void {
         this.pos.x += this.vel.x
         this.pos.y += this.vel.y
-        this.rot += 0.05
     }
 
     public onMouseMove(event: MouseEvent) {
         let canvas: Canvas = this.parent!.getCanvasObject()
         this.aimPos.x = event.pageX - canvas.canvas.offsetLeft;
         this.aimPos.y = event.pageY - canvas.canvas.offsetTop;
+        let trans = (this.aimPos.y - this.pos.y) / (this.aimPos.x - this.pos.x)
+        this.rot = Math.atan(trans) + Math.PI / 2
     }
 
     public onKeyDown(event: KeyboardEvent) {
