@@ -7,9 +7,10 @@ export class Tank extends GameObject {
 
     position: Vector2f = new Vector2f()
     size: Vector2f = new Vector2f()
-    relativeVelocity: Vector2f = new Vector2f()
     rotation: number = 0
     target: Vector2f = new Vector2f()
+    power: number = 2
+    speed: number = 0
 
     constructor() {
         super()
@@ -26,9 +27,13 @@ export class Tank extends GameObject {
     }
 
     public update(): void {
-        this.position.x += this.relativeVelocity.x
-        this.position.y += this.relativeVelocity.y
+        this.move();
         this.faceAimPos();
+    }
+
+    private move(): void {
+        this.position.x += Math.cos(this.rotation + Math.PI/2) * this.speed
+        this.position.y += Math.sin(this.rotation + Math.PI/2) * this.speed
     }
 
     public onMouseMove(event: MouseEvent) {
@@ -38,8 +43,16 @@ export class Tank extends GameObject {
     }
 
     private faceAimPos() {
-        let trans = (this.target.y - this.position.y) / (this.target.x - this.position.x)
+        let aim: Vector2f = new Vector2f(
+            this.target.x - this.position.x,
+            this.target.y - this.position.y
+        );
+        let trans = aim.y / aim.x;
         this.rotation = Math.atan(trans) + Math.PI / 2
+
+        if (aim.x < 0) {
+            this.rotation -= Math.PI
+        }
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -47,14 +60,8 @@ export class Tank extends GameObject {
             case 'w':
                 this.goUp();
                 break;
-            case 'a':
-                this.goLeft();
-                break;
             case 's':
                 this.goDown();
-                break;
-            case 'd':
-                this.goRight();
                 break;
             default:
                 break;
@@ -77,69 +84,28 @@ export class Tank extends GameObject {
                     }
                 }
                 break;
-            case 'a':
-                {
-                    if (this.goingLeft()) {
-                        this.stopX();
-                    }
-                }
-            case 'd':
-                {
-                    if (this.goingRight()) {
-                        this.stopX();
-                    }
-                }
-                break;
             default:
                 break;
         }
     }
 
-    speed: number = 2
-
     public goUp() {
-        this.relativeVelocity.y = -this.speed
+        this.speed = -this.power
     }
 
     public goDown() {
-        this.relativeVelocity.y = this.speed
-    }
-
-    public goLeft() {
-        this.relativeVelocity.x = -this.speed
-    }
-
-    public goRight() {
-        this.relativeVelocity.x = this.speed
-    }
-
-    public stopX() {
-        this.relativeVelocity.x = 0;
+        this.speed = this.power
     }
 
     public stopY() {
-        this.relativeVelocity.y = 0;
-    }
-
-    public stop() {
-        this.relativeVelocity.x = 0;
-        this.relativeVelocity.y = 0;
+        this.speed = 0;
     }
 
     goingUp(): boolean {
-        return this.relativeVelocity.y < 0
+        return this.speed < 0
     }
 
     goingDown(): boolean {
-        return this.relativeVelocity.y > 0
+        return this.speed > 0
     }
-
-    goingLeft(): boolean {
-        return this.relativeVelocity.x < 0
-    }
-
-    goingRight(): boolean {
-        return this.relativeVelocity.x > 0
-    }
-
 }
