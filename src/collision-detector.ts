@@ -1,14 +1,14 @@
-import { Collidable } from "./collidable";
+import { CollidableGameObject } from "./collidable-game-object";
 import { CollisionByStander } from "./collision-by-stander";
 import { TLBB } from "./tlbb";
 
 export class CollisionDetector {
     tlbbs: TLBB[] = []
 
-    collidables: Collidable[] = []
+    collidables: CollidableGameObject[] = []
     collisionByStander: CollisionByStander = new CollisionByStander()
 
-    registerCollidable(collidable: Collidable) {
+    registerCollidable(collidable: CollidableGameObject) {
         this.collidables.push(collidable)
     }
 
@@ -17,8 +17,8 @@ export class CollisionDetector {
             for (let j: number = 0; j < this.collidables.length; j++) {
                 if (i == j) continue;
 
-                let a: Collidable = this.collidables[i]
-                let b: Collidable = this.collidables[j]
+                let a: CollidableGameObject = this.collidables[i]
+                let b: CollidableGameObject = this.collidables[j]
 
                 let abox: TLBB = a.getTLBB();
                 let bbox: TLBB = b.getTLBB();

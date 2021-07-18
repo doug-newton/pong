@@ -1,7 +1,7 @@
-import { Collidable } from "./collidable";
+import { CollidableGameObject } from "./collidable-game-object";
 
 export class CollisionByStander {
-    allowPaddle(paddle: Collidable, peer: Collidable) {
+    allowPaddle(paddle: CollidableGameObject, peer: CollidableGameObject) {
         peer.collideWithPaddle(paddle);
     }
 }

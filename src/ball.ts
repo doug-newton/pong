@@ -1,4 +1,4 @@
-import { Collidable } from "./collidable";
+import { CollidableGameObject } from "./collidable-game-object";
 import { GameObject } from "./game-object";
 import { GameSettings } from "./game-settings";
 import { Paddle } from "./paddle";
@@ -7,7 +7,7 @@ import { Style } from "./style";
 import { TLBB } from "./tlbb";
 import { Vector2f } from "./vector2f";
 
-export class Ball extends Collidable {
+export class Ball extends CollidableGameObject {
 
     getTLBB(): TLBB {
         return {
