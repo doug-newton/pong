@@ -20,7 +20,7 @@ export class Tank extends GameObject {
     }
 
     public draw(context: CanvasRenderingContext2D): void {
-        RenderUtil.drawRect(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation);
+        RenderUtil.drawTank(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation);
         this.drawCrossHair(context);
         RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`);
     }
