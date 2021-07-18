@@ -39,11 +39,6 @@ export class Laser extends GameObject {
 
     public update(): void {
 
-        let leftBound: number = 0
-        let topBound: number = 0
-        let rightBound: number = GameSettings.canvasDimensions.w
-        let bottomBound: number = GameSettings.canvasDimensions.h
-
         this.points = []
         let x: number = this.tank.position.x - Math.cos(this.tank.rotation + Math.PI / 2) * 75;
         let y: number = this.tank.position.y - Math.sin(this.tank.rotation + Math.PI / 2) * 75;
@@ -51,12 +46,25 @@ export class Laser extends GameObject {
         let y1: number = this.tank.position.y - Math.sin(this.tank.rotation + Math.PI / 2) * 2000;
 
         let gradient = (y1 - y) / (x1 - x)
+        let m = gradient
 
-        //    if (this.tank.rotation > 0 && this.tank.rotation < Math.PI){
+        let nextPoint: Vector2f = this.nextIntersection(x, y, m)
 
-        this.m = gradient
-        let c = y - x * this.m
+        this.points.push(
+            new Vector2f(x, y),
+            nextPoint,
+            new Vector2f(350, 350),
+            new Vector2f(500, 400)
+        )
+    }
 
+    nextIntersection(x: number, y: number, m: number) {
+        let leftBound: number = 0
+        let topBound: number = 0
+        let rightBound: number = GameSettings.canvasDimensions.w
+        let bottomBound: number = GameSettings.canvasDimensions.h
+
+        let c = y - x * m
         let xx: number = 0;
         let yy: number = 0;
 
@@ -67,17 +75,8 @@ export class Laser extends GameObject {
             xx = rightBound
         }
 
-        yy = this.m * xx + c
+        yy = m * xx + c
 
-        this.points.push(
-            new Vector2f(x, y),
-            new Vector2f(xx, yy),
-            new Vector2f(300, 300),
-            new Vector2f(500, 400),
-            //    new Vector2f(
-                //    this.tank.position.x - Math.cos(this.tank.rotation + Math.PI / 2) * 2000,
-                //    this.tank.position.y - Math.sin(this.tank.rotation + Math.PI / 2) * 2000
-            //    ),
-        )
+        return new Vector2f(xx, yy)
     }
 }
