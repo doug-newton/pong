@@ -10,8 +10,9 @@ export class Tank extends GameObject {
     size: Vector2f = new Vector2f()
     rotation: number = 0
     target: Vector2f = new Vector2f()
-    power: number = 2
+    power: number = 9
     speed: number = 0
+    bulletSpeed: number = 15
 
     constructor() {
         super()
@@ -78,7 +79,7 @@ export class Tank extends GameObject {
     }
 
     private shoot() {
-        let bullet: Bullet = new Bullet(this.rotation, 9)
+        let bullet: Bullet = new Bullet(this.rotation, this.bulletSpeed)
         bullet.position.x = this.position.x - Math.cos(this.rotation + Math.PI/2) * 70
         bullet.position.y = this.position.y - Math.sin(this.rotation + Math.PI/2) * 70
         this.parent!.registerGameObject(bullet)
