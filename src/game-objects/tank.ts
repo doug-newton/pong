@@ -1,6 +1,7 @@
 import { Canvas } from "../canvas";
 import { GameObject } from "../game-object";
 import { RenderUtil } from "../render-util";
+import { Style } from "../style";
 import { Vector2f } from "../vector2f";
 import { Bullet } from "./bullet";
 
@@ -15,6 +16,8 @@ export class Tank extends GameObject {
     speed: number = 0
     bulletSpeed: number = 15
 
+    laserStyle: Style = new Style("red", "red", 1, false, true)
+
     constructor() {
         super()
         this.size = new Vector2f(50, 70)
@@ -26,6 +29,20 @@ export class Tank extends GameObject {
         RenderUtil.drawTank(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation);
         RenderUtil.drawCrosshair(context, this.target.x, this.target.y);
         RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`);
+        this.drawLaser(context)
+    }
+
+    private drawLaser(context: CanvasRenderingContext2D): void {
+        let laserEnd: Vector2f = new Vector2f(
+            this.position.x - Math.cos(this.rotation + Math.PI / 2) * 2000,
+            this.position.y - Math.sin(this.rotation + Math.PI / 2) * 2000
+        )
+        RenderUtil.drawLine(context,
+            this.position.x - Math.cos(this.rotation + Math.PI / 2) * 75,
+            this.position.y - Math.sin(this.rotation + Math.PI / 2) * 75,
+            laserEnd.x,
+            laserEnd.y,
+            this.laserStyle)
     }
 
     public update(): void {
