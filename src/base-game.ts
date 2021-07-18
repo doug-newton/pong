@@ -4,7 +4,7 @@ import { IGame } from "./i-game";
 
 export class BaseGame implements IGame {
 
-    protected registerGameObject(o: GameObject){
+    public registerGameObject(o: GameObject){
         this.gameObjects.push(o);
         o.onRegister(this)
     }
