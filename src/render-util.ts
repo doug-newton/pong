@@ -23,12 +23,17 @@ class RenderUtil_Singleton {
             context.fill()
     }
 
-    drawRect(context: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, style: Style = defaultStyle) {
+    drawRect(context: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, rotation: number = 0, style: Style = defaultStyle) {
+        context.save();
+        context.translate(x, y);
+        context.rotate(rotation);
+        context.translate(-w / 2, -h / 2);
         this.applyStyle(context, style);
         if (style.bFill)
-            context.fillRect(x, y, w, h);
-        if (style.bStroke) 
-            context.strokeRect(x, y, w, h);
+            context.fillRect(0, 0, w, h);
+        if (style.bStroke)
+            context.strokeRect(0, 0, w, h);
+        context.restore();
     }
 
     applyStyle(context: CanvasRenderingContext2D, style: Style) {
