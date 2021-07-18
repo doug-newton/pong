@@ -21,7 +21,12 @@ export class Bullet extends GameObject {
             Math.cos(this.rotation - Math.PI / 2) * this.speed,
             Math.sin(this.rotation - Math.PI / 2) * this.speed
         )
+
+        let randomColorIndex = Math.floor(Math.random()*this.colors.length)
+        this.style.fillColor = this.colors[randomColorIndex]
     }
+
+    colors: string[] = ['white','red','green','blue','yellow','orange','magenta']
 
     public draw(context: CanvasRenderingContext2D): void {
         RenderUtil.drawCircle(context, this.position.x, this.position.y, 5, this.style)
