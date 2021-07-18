@@ -11,6 +11,7 @@ export class Tank extends GameObject {
     rotation: number = 0
     target: Vector2f = new Vector2f()
     power: number = 9
+    reversePower: number = 3
     speed: number = 0
     bulletSpeed: number = 15
 
@@ -111,7 +112,7 @@ export class Tank extends GameObject {
     }
 
     public goDown() {
-        this.speed = this.power
+        this.speed = this.reversePower
     }
 
     public stopY() {
