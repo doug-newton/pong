@@ -4,4 +4,7 @@ export class CollisionByStander {
     allowPaddle(paddle: CollidableGameObject, peer: CollidableGameObject) {
         peer.collideWithPaddle(paddle);
     }
+    allowBall(ball: CollidableGameObject, peer: CollidableGameObject) {
+        peer.collideWithBall(ball);
+    }
 }

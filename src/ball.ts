@@ -1,7 +1,7 @@
 import { CollidableGameObject } from "./collidable-game-object";
+import { CollisionByStander } from "./collision-by-stander";
 import { GameObject } from "./game-object";
 import { GameSettings } from "./game-settings";
-import { Paddle } from "./paddle";
 import { RenderUtil } from "./render-util";
 import { Style } from "./style";
 import { TLBB } from "./tlbb";
@@ -36,6 +36,11 @@ export class Ball extends CollidableGameObject {
     public override draw(canvas: CanvasRenderingContext2D): void {
         RenderUtil.drawCircle(canvas, this.pos.x, this.pos.y, this.radius, this.style);
     }
+
+    override standBy(byStander: any, peer: CollidableGameObject): void {
+        <CollisionByStander>byStander.allowBall(this, peer);
+    }
+
 
     public override update(): void {
         this.pos.x += this.vel.x
