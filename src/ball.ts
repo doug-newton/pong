@@ -1,3 +1,4 @@
+import { Brick } from "./brick";
 import { CollidableGameObject } from "./collidable-game-object";
 import { CollisionByStander } from "./collision-by-stander";
 import { GameObject } from "./game-object";
@@ -18,8 +19,14 @@ export class Ball extends CollidableGameObject {
         }
     }
 
-    override collideWithPaddle(gameObject: GameObject) {
+    override collideWithPaddle(gameObject: CollidableGameObject) {
         this.vel.y = -this.vel.y;
+    }
+
+    override collideWithBrick(gameObject: CollidableGameObject) {
+        this.vel.y = -this.vel.y;
+        let brick: Brick = <Brick>gameObject;
+        brick.collidable = false
     }
 
     pos: Vector2f = new Vector2f()

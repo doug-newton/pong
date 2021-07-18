@@ -20,6 +20,9 @@ export class CollisionDetector {
                 let a: CollidableGameObject = this.collidables[i]
                 let b: CollidableGameObject = this.collidables[j]
 
+                if (a.collidable == false) continue;
+                if (b.collidable == false) continue;
+
                 let abox: TLBB = a.getTLBB();
                 let bbox: TLBB = b.getTLBB();
 

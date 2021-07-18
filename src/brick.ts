@@ -1,4 +1,5 @@
 import { CollidableGameObject } from "./collidable-game-object";
+import { CollisionByStander } from "./collision-by-stander";
 import { RenderUtil } from "./render-util";
 import { Style } from "./style";
 import { TLBB } from "./tlbb";
@@ -15,6 +16,7 @@ export class Brick extends CollidableGameObject {
         this.dim = new Vector2f(50, 25);
         this.pos = new Vector2f(200 + offsetX * this.dim.w, 200 + offsetY * this.dim.h);
         this.assignRandomColor()
+        this.collidable = true
     }
 
     assignRandomColor() {
@@ -48,6 +50,10 @@ export class Brick extends CollidableGameObject {
 
     public override collideWithBall(ball: CollidableGameObject) {
         this.visible = false
+    }
+
+    public override standBy(byStander: any, peer: CollidableGameObject) {
+        <CollisionByStander>byStander.allowBrick(this, peer);
     }
 
 }
