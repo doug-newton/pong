@@ -2,6 +2,7 @@ import { Canvas } from "../canvas";
 import { GameObject } from "../game-object";
 import { RenderUtil } from "../render-util";
 import { Vector2f } from "../vector2f";
+import { Bullet } from "./bullet";
 
 export class Tank extends GameObject {
 
@@ -68,9 +69,19 @@ export class Tank extends GameObject {
             case 's':
                 this.goDown();
                 break;
+            case ' ':
+                this.shoot();
+                break;
             default:
                 break;
         }
+    }
+
+    private shoot() {
+        let bullet: Bullet = new Bullet(this.rotation, 9)
+        bullet.position.x = this.position.x - Math.cos(this.rotation + Math.PI/2) * 70
+        bullet.position.y = this.position.y - Math.sin(this.rotation + Math.PI/2) * 70
+        this.parent!.registerGameObject(bullet)
     }
 
     public onKeyUp(event: KeyboardEvent) {
