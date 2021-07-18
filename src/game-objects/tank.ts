@@ -28,39 +28,15 @@ export class Tank extends GameObject {
         RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`);
     }
 
-    private drawCrossHair(context: CanvasRenderingContext2D) {
-        let crossHairSize = 10;
-        RenderUtil.drawLine(context, this.target.x - crossHairSize, this.target.y, this.target.x + crossHairSize, this.target.y);
-        RenderUtil.drawLine(context, this.target.x, this.target.y - crossHairSize, this.target.x, this.target.y + crossHairSize);
-    }
-
     public update(): void {
         this.move();
         this.faceAimPos();
-    }
-
-    private move(): void {
-        this.position.x += Math.cos(this.rotation + Math.PI/2) * this.speed
-        this.position.y += Math.sin(this.rotation + Math.PI/2) * this.speed
     }
 
     public onMouseMove(event: MouseEvent) {
         let canvas: Canvas = this.parent!.getCanvasObject()
         this.target.x = event.pageX - canvas.canvas.offsetLeft;
         this.target.y = event.pageY - canvas.canvas.offsetTop;
-    }
-
-    private faceAimPos() {
-        let aim: Vector2f = new Vector2f(
-            this.target.x - this.position.x,
-            this.target.y - this.position.y
-        );
-        let trans = aim.y / aim.x;
-        this.rotation = Math.atan(trans) + Math.PI / 2
-
-        if (aim.x < 0) {
-            this.rotation -= Math.PI
-        }
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -77,13 +53,6 @@ export class Tank extends GameObject {
             default:
                 break;
         }
-    }
-
-    private shoot() {
-        let bullet: Bullet = new Bullet(this.rotation, this.bulletSpeed)
-        bullet.position.x = this.position.x - Math.cos(this.rotation + Math.PI/2) * 70
-        bullet.position.y = this.position.y - Math.sin(this.rotation + Math.PI/2) * 70
-        this.parent!.registerGameObject(bullet)
     }
 
     public onKeyUp(event: KeyboardEvent) {
@@ -107,23 +76,54 @@ export class Tank extends GameObject {
         }
     }
 
-    public goUp() {
+    private drawCrossHair(context: CanvasRenderingContext2D) {
+        let crossHairSize = 10;
+        RenderUtil.drawLine(context, this.target.x - crossHairSize, this.target.y, this.target.x + crossHairSize, this.target.y);
+        RenderUtil.drawLine(context, this.target.x, this.target.y - crossHairSize, this.target.x, this.target.y + crossHairSize);
+    }
+
+    private move(): void {
+        this.position.x += Math.cos(this.rotation + Math.PI/2) * this.speed
+        this.position.y += Math.sin(this.rotation + Math.PI/2) * this.speed
+    }
+
+    private faceAimPos() {
+        let aim: Vector2f = new Vector2f(
+            this.target.x - this.position.x,
+            this.target.y - this.position.y
+        );
+        let trans = aim.y / aim.x;
+        this.rotation = Math.atan(trans) + Math.PI / 2
+
+        if (aim.x < 0) {
+            this.rotation -= Math.PI
+        }
+    }
+
+    private shoot() {
+        let bullet: Bullet = new Bullet(this.rotation, this.bulletSpeed)
+        bullet.position.x = this.position.x - Math.cos(this.rotation + Math.PI/2) * 70
+        bullet.position.y = this.position.y - Math.sin(this.rotation + Math.PI/2) * 70
+        this.parent!.registerGameObject(bullet)
+    }
+
+    private goUp() {
         this.speed = -this.power
     }
 
-    public goDown() {
+    private goDown() {
         this.speed = this.reversePower
     }
 
-    public stopY() {
+    private stopY() {
         this.speed = 0;
     }
 
-    goingUp(): boolean {
+    private goingUp(): boolean {
         return this.speed < 0
     }
 
-    goingDown(): boolean {
+    private goingDown(): boolean {
         return this.speed > 0
     }
 }
