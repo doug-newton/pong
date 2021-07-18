@@ -1,18 +1,29 @@
+import { GameSettings } from "./game-settings";
+import { RenderUtil } from "./render-util";
+import { Style } from "./style";
+
 export class Canvas {
-    width: number = 640
-    height: number = 480
 
     constructor() {
         this.canvas = <HTMLCanvasElement>document.getElementsByTagName('canvas')[0]
-        this.canvas.width = this.width
-        this.canvas.height = this.height
+        this.canvas.width = GameSettings.canvasDimensions.w
+        
+        this.canvas.height = GameSettings.canvasDimensions.h
         this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
     }
 
     canvas: HTMLCanvasElement
     context: CanvasRenderingContext2D
+    style: Style = new Style("white", "white", 1, true, true)
 
-    clear(){
-        this.context.clearRect(0, 0, this.width, this.height)
+    clear() {
+        RenderUtil.drawRect(
+            this.context, 
+            GameSettings.canvasDimensions.w/2, 
+            GameSettings.canvasDimensions.h/2, 
+            GameSettings.canvasDimensions.w, 
+            GameSettings.canvasDimensions.h, 
+            0, 
+            this.style)
     }
 }
