@@ -1,5 +1,6 @@
 import { CollidableGameObject } from "./collidable-game-object";
 import { RenderUtil } from "./render-util";
+import { Style } from "./style";
 import { TLBB } from "./tlbb";
 import { Vector2f } from "./vector2f";
 
@@ -13,7 +14,17 @@ export class Brick extends CollidableGameObject {
         super()
         this.dim = new Vector2f(50, 25);
         this.pos = new Vector2f(200 + offsetX * this.dim.w, 200 + offsetY * this.dim.h);
+        this.assignRandomColor()
     }
+
+    assignRandomColor() {
+        let random: number = Math.floor(Math.random()*this.colors.length + 0)
+        this.style.fillColor = this.colors[random]
+    }
+
+    colors: string[] = [
+        'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'
+    ]
 
     getTLBB(): TLBB {
         return {
@@ -24,9 +35,11 @@ export class Brick extends CollidableGameObject {
         }
     }
 
+    style: Style = new Style("white", "red", 1, true, true);
+
     public draw(context: CanvasRenderingContext2D): void {
         if (this.visible) {
-            RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h)
+            RenderUtil.drawRect(context, this.pos.x, this.pos.y, this.dim.w, this.dim.h, this.style)
         }
     }
 

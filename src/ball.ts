@@ -29,8 +29,8 @@ export class Ball extends CollidableGameObject {
 
     constructor() {
         super()
-        this.vel.x = 5
-        this.vel.y = 3
+        this.vel.x = 10
+        this.vel.y = 10
     }
 
     public override draw(canvas: CanvasRenderingContext2D): void {
