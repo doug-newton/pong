@@ -5,19 +5,6 @@ import { Style } from "../style";
 import { Vector2f } from "../vector2f";
 import { Tank } from "./tank";
 
-enum BoundCollisionType {
-    NONE, TOP, RIGHT, LEFT, BOTTOM
-}
-
-class Reflection {
-    pos: Vector2f
-    boundCollisionType: BoundCollisionType
-    constructor(pos: Vector2f, boundCollisionType: BoundCollisionType) {
-        this.pos = new Vector2f(pos.x, pos.y)
-        this.boundCollisionType = boundCollisionType
-    }
-}
-
 export class Laser extends GameObject {
 
     tank: Tank
