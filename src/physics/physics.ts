@@ -17,73 +17,34 @@ class Physics_Singleton {
 
         if (line1.gradient == line2.gradient) return null;
 
-        let result: Vector2f = new Vector2f()
-
         if (this.isVertical(line1)) {
-            if (line1.xIntercept == null) return null
-            if (line2.yIntercept == null) return null
-            if (this.isHorizontal(line2)) {
-                result.x = line1.xIntercept
-                result.y = line2.yIntercept
-            }
-            else {
-                result.x = line1.xIntercept
-                result.y = line2.gradient * result.x + line2.yIntercept
+            if (line1.xIntercept == null)
+            {
+                throw 'vertical line must define an x-intercept'
             }
         }
-        else if (this.isHorizontal(line1)) {
-            if (line1.yIntercept == null) return null
-            if (this.isVertical(line2)) {
-                if (line2.xIntercept == null) return null
-                result.x = line2.xIntercept
-                result.y = line1.yIntercept
-            }
-            else {
-                if (line2.yIntercept == null) return null
-                result.x = (line1.yIntercept - line2.yIntercept) / line2.gradient
-                result.y = line1.yIntercept
-            }
-        }
-        else if (this.isVertical(line2)) {
-            if (line2.xIntercept == null) return null
-            if (line1.yIntercept == null) return null
-            if (this.isHorizontal(line1)) {
-                result.x = line2.xIntercept
-                result.y = line1.yIntercept
-            }
-            else {
-                result.x = line2.xIntercept
-                result.y = line1.gradient * result.x + line1.yIntercept
-            }
-        }
-        else if (this.isHorizontal(line2)) {
-            if (line2.yIntercept == null) return null
-            if (this.isVertical(line1)) {
-                if (line1.xIntercept == null) return null
-                result.x = line1.xIntercept
-                result.y = line2.yIntercept
-            }
-            else {
-                if (line1.yIntercept == null) return null
-                result.x = (line2.yIntercept - line1.yIntercept) / line1.gradient
-                result.y = line2.yIntercept
-            }
-        }
-        else {
-            if (line1.yIntercept == null) return null
-            if (line2.yIntercept == null) return null
-            result.x = - ((line1.yIntercept - line2.yIntercept) / (line1.gradient - line1.gradient))
-            result.y = line1.gradient * result.x + line1.yIntercept
-        }
+        else if (line1.yIntercept == null)
+            throw 'non-vertical line must define a y-intercept'
 
-        return result
+        if (this.isVertical(line2)) {
+            if (line2.xIntercept == null)
+            {
+                throw 'vertical line must define an x-intercept'
+            }
+        }
+        else if (line2.yIntercept == null) 
+            throw 'non-vertical line must define a y-intercept'
+
+        if (line1.xIntercept == null) return null
+        if (line2.yIntercept == null) return null
+        return new Vector2f(line1.xIntercept, line2.yIntercept);
     }
 
-    private isVertical(line: Line) {
-        return line.gradient == NaN
+    private isVertical(line: Line):boolean {
+        return line.gradient == null
     }
 
-    private isHorizontal(line: Line) {
+    private isHorizontal(line: Line):boolean {
         return line.gradient == 0
     }
     
