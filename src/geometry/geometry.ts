@@ -4,6 +4,7 @@ let ex1: string = 'vertical lines must define an x-intercept'
 let ex2: string = 'non-vertical lines must define a y-intercept'
 let ex3: string = 'vertical lines cannot have a y-intercept'
 let ex4: string = 'horizontal lines cannot have an x-intercept'
+let ex5: string = 'line and line segment intersection is only implemented for vertical or horizontal line segments'
 
 export class Line {
 
@@ -129,8 +130,38 @@ class Geometry_Singleton {
         }
     }
 
+    public lineAndLineSegmentIntersection(line: Line, lineSegment: LineSegment): Vector2f | null {
+        let line2: Line | null = this.lineFromLineSegment(lineSegment)
+        if (line2 == null) return null
+
+        if (!this.isHorizontal(line2) && !this.isVertical(line2)) throw ex5
+
+        let n: Vector2f | null = this.getLineIntersection(line, line2)
+
+        if (n == null) return null
+
+        if (this.isHorizontal(line2)) {
+            let lesserEdge = lineSegment.p0.x < lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+            let greaterEdge = lineSegment.p0.x > lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+            if (lesserEdge <= n.x && n.x <= greaterEdge) return n
+            else return null
+        }
+        else if (this.isVertical(line2)) {
+            let lesserEdge = lineSegment.p0.y < lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+            let greaterEdge = lineSegment.p0.y > lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+            if (lesserEdge <= n.y && n.y <= greaterEdge) return n
+            else return null
+        }
+
+        return null
+    }
+
     private isVertical(line: Line): boolean {
         return line.m == Infinity
+    }
+
+    private isHorizontal(line: Line): boolean {
+        return line.m == 0
     }
 
 }
