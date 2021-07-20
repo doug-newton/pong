@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Geometry, Line, Ray } from '../src/geometry/geometry';
+import { Geometry, Line, LineSegment, Ray } from '../src/geometry/geometry';
 import { Vector2f } from '../src/vector2f';
 
 describe('geometry', () => {
@@ -61,6 +61,30 @@ describe('geometry', () => {
         expect(line.m).to.be.approximately(expected.m, delta)
         expect(line.xint).to.be.equal(expected.xint)
         expect(line.yint).to.be.approximately(expected.yint!, delta)
+    })
+
+    it('can create non-vertical, non-horizontal line from line segment', () => {
+        let lineSegment: LineSegment = new LineSegment(0, 0, 5, 10)
+        let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
+        expect(line).to.deep.equal(new Line(2, null, 0))
+    })
+
+    it('can create vertical line from line segment', () => {
+        let lineSegment: LineSegment = new LineSegment(0, 0, 0, 5)
+        let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
+        expect(line).to.deep.equal(new Line(Infinity, 0, null))
+    })
+
+    it('can create horizontal line from line segment', () => {
+        let lineSegment: LineSegment = new LineSegment(0, 5, 10, 5)
+        let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
+        expect(line).to.deep.equal(new Line(0, null, 5))
+    })
+
+    it('doesn\'t create line from single-point line segment', () => {
+        let lineSegment: LineSegment = new LineSegment(1, 0, 1, 0)
+        let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
+        expect(line).to.equal(null)
     })
 
 })

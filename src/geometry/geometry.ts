@@ -25,6 +25,15 @@ export class Line {
     }
 }
 
+export class LineSegment {
+    p0: Vector2f
+    p1: Vector2f
+    constructor(x0: number, y0: number, x1: number, y1: number) {
+        this.p0 = new Vector2f(x0, y0)
+        this.p1 = new Vector2f(x1, y1)
+    }
+}
+
 export class Ray {
     origin: Vector2f
     angle: number
@@ -86,7 +95,36 @@ class Geometry_Singleton {
         }
         else {
             xint = null
-            yint = ray.origin.y - m *  ray.origin.x
+            yint = ray.origin.y - m * ray.origin.x
+            return new Line(m, xint, yint)
+        }
+    }
+
+    public lineFromLineSegment(lineSegment: LineSegment): Line | null {
+        let dy: number = lineSegment.p1.y - lineSegment.p0.y
+        let dx: number = lineSegment.p1.x - lineSegment.p0.x
+        let m: number
+        let xint: number | null
+        let yint: number | null
+
+        if (dy == 0 && dx == 0) return null
+
+        if (dx == 0) {
+            m = Infinity
+            xint = lineSegment.p0.x
+            yint = null
+            return new Line(m, xint, yint)
+        }
+        else if (dy == 0) {
+            m = 0
+            xint = null
+            yint = lineSegment.p0.y
+            return new Line(m, xint, yint)
+        }
+        else {
+            m = dy / dx
+            xint = null
+            yint = lineSegment.p0.y - m * lineSegment.p0.x
             return new Line(m, xint, yint)
         }
     }
