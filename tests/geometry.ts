@@ -1,14 +1,13 @@
 import { expect } from 'chai';
-import { Geometry, Line } from '../src/geometry/geometry';
+import { Geometry, Line, Ray } from '../src/geometry/geometry';
 import { Vector2f } from '../src/vector2f';
 
 describe('geometry', () => {
-    let error: number = 0.09
+    let delta: number = 0.00001
 
     it('gradient can be calculated from angle', () => {
-        let theta: number = Math.PI / 6
-        let m: number = Geometry.getGradientFromAngle(theta)
-        expect(Math.abs(m - 1 / 2)).to.be.lessThan(error)
+        let theta: number 
+        let m: number 
 
         theta = 0
         m = Geometry.getGradientFromAngle(theta)
@@ -20,15 +19,19 @@ describe('geometry', () => {
 
         theta = Math.PI
         m = Geometry.getGradientFromAngle(theta)
-        expect(Math.abs(m - 0)).to.be.lessThan(error)
+        expect(m).to.be.approximately(0, delta)
 
         theta = Math.PI * 2
         m = Geometry.getGradientFromAngle(theta)
-        expect(Math.abs(m - 0)).to.be.lessThan(error)
+        expect(m).to.be.approximately(0, delta)
 
         theta = Math.PI / 4
         m = Geometry.getGradientFromAngle(theta)
-        expect(m * m - 2).to.be.lessThan(error)
+        expect(m).to.be.approximately(1, delta)
+
+        theta = 0.463647609
+        m = Geometry.getGradientFromAngle(theta)
+        expect(m).to.be.approximately(1/2, delta)
     })
 
     it('parallel lines dont intersect', () => {
@@ -60,6 +63,16 @@ describe('geometry', () => {
         expect(n).to.deep.equal(new Vector2f(2, 5))
         n = Geometry.getLineIntersection(b, a)
         expect(n).to.deep.equal(new Vector2f(2, 5))
+    })
+
+    it('can create line from ray', () => {
+        let ray: Ray = new Ray(2, 6, 0.463647609)
+        let line: Line = Geometry.lineFromRay(ray);
+        let expected: Line = new Line(1 / 2, null, 5)
+
+        expect(line.m).to.be.approximately(expected.m, delta)
+        expect(line.xint).to.be.equal(expected.xint)
+        expect(line.yint).to.be.approximately(expected.yint!, delta)
     })
 
 })
