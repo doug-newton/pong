@@ -17,21 +17,9 @@ describe('geometry', () => {
         m = Geometry.getGradientFromAngle(theta)
         expect(m).to.equal(Infinity)
 
-        theta = Math.PI
-        m = Geometry.getGradientFromAngle(theta)
-        expect(m).to.be.approximately(0, delta)
-
-        theta = Math.PI * 2
-        m = Geometry.getGradientFromAngle(theta)
-        expect(m).to.be.approximately(0, delta)
-
         theta = Math.PI / 4
         m = Geometry.getGradientFromAngle(theta)
         expect(m).to.be.approximately(1, delta)
-
-        theta = 0.463647609
-        m = Geometry.getGradientFromAngle(theta)
-        expect(m).to.be.approximately(1/2, delta)
     })
 
     it('parallel lines dont intersect', () => {
