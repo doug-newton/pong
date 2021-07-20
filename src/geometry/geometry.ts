@@ -25,6 +25,15 @@ export class Line {
     }
 }
 
+export class Ray {
+    origin: Vector2f
+    angle: number
+    constructor(x: number, y: number, angle: number) {
+        this.origin = new Vector2f(x, y)
+        this.angle = angle
+    }
+}
+
 class Geometry_Singleton {
 
     private notInfinity: number = 16331239353195370
@@ -60,10 +69,32 @@ class Geometry_Singleton {
         }
     }
 
+    public lineFromRay(ray: Ray): Line {
+        let m: number = this.getGradientFromAngle(ray.angle)
+        let xint: number | null
+        let yint: number | null
+
+        if (m == Infinity) {
+            xint = ray.origin.x
+            yint = null
+            return new Line(m, xint, yint)
+        }
+        else if (m == 0) {
+            xint = null
+            yint = ray.origin.y
+            return new Line(m, xint, yint)
+        }
+        else {
+            xint = null
+            yint = ray.origin.y - m *  ray.origin.x
+            return new Line(m, xint, yint)
+        }
+    }
+
     private isVertical(line: Line): boolean {
         return line.m == Infinity
     }
 
 }
 
-export const Geometry: Geometry_Singleton = new Geometry_Singleton();
+export const Geometry: Geometry_Singleton = new Geometry_Singleton()
