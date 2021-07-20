@@ -13,6 +13,7 @@ class Ray {
 
 class Physics_Singleton {
 
+
     lineIntersection(line1: Line, line2: Line): Vector2f | null {
 
         if (line1.gradient == line2.gradient) return null;
