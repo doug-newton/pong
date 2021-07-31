@@ -44,7 +44,15 @@ export class Ray {
     }
 }
 
-class Geometry_Singleton {
+abstract class AbstractGeometry_Singleton {
+    public abstract getGradientFromAngle(theta: number): number
+    public abstract getLineIntersection(line1: Line, line2: Line): Vector2f | null
+    public abstract lineFromRay(ray: Ray): Line
+    public abstract lineFromLineSegment(lineSegment: LineSegment): Line | null
+    public abstract lineAndLineSegmentIntersection(line: Line, lineSegment: LineSegment): Vector2f | null
+}
+
+class Geometry_Singleton extends AbstractGeometry_Singleton {
 
     private notInfinity: number = 16331239353195370
 
@@ -166,4 +174,4 @@ class Geometry_Singleton {
 
 }
 
-export const Geometry: Geometry_Singleton = new Geometry_Singleton()
+export const Geometry: AbstractGeometry_Singleton = new Geometry_Singleton()
