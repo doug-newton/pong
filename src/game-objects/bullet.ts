@@ -2,7 +2,7 @@ import { GameObject } from "../game-object";
 import { GameSettings } from "../game-settings";
 import { RenderUtil } from "../render-util";
 import { Style } from "../style";
-import { Vector2f } from "../vector2f";
+import { Vector2f } from "../geometry/vector2f";
 
 export class Bullet extends GameObject {
 

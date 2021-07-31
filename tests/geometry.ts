@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Geometry, Line, LineSegment, Ray } from '../src/geometry/geometry';
-import { Vector2f } from '../src/vector2f';
+import { Vector2f } from '../src/geometry/vector2f';
 
 describe('geometry', () => {
     let delta: number = 0.00001

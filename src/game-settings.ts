@@ -1,4 +1,4 @@
-import { Vector2f } from "./vector2f"
+import { Vector2f } from "./geometry/vector2f"
 
 interface GameSettingsConfig {
     canvasDimensions: Vector2f

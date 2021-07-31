@@ -1,4 +1,4 @@
-import { Vector2f } from "../vector2f"
+import { Vector2f } from "./vector2f"
 
 let ex1: string = 'vertical lines must define an x-intercept'
 let ex2: string = 'non-vertical lines must define a y-intercept'

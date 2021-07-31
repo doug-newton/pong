@@ -3,7 +3,7 @@ import { GameObject } from "../game-object";
 import { IGame } from "../i-game";
 import { RenderUtil } from "../render-util";
 import { Style } from "../style";
-import { Vector2f } from "../vector2f";
+import { Vector2f } from "../geometry/vector2f";
 import { Bullet } from "./bullet";
 import { Laser } from "./laser";
 
