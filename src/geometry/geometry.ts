@@ -52,6 +52,8 @@ abstract class AbstractGeometry_Singleton {
     public abstract getNormals(line: Line): Vector2f
     public abstract getRayLineSegmentIntersection(ray: Ray, lineSegment: LineSegment): Vector2f | null
 
+    public abstract reflectRayOffLine(ray: Ray, line: Line): Ray | null
+
     public abstract lineFromRay(ray: Ray): Line
     public abstract lineFromLineSegment(lineSegment: LineSegment): Line | null
     public abstract lineAndLineSegmentIntersection(line: Line, lineSegment: LineSegment): Vector2f | null
@@ -153,6 +155,27 @@ class Geometry_Singleton extends AbstractGeometry_Singleton {
         if (p.y < lessery) return null
 
         return p
+    }
+
+    public reflectRayOffLine(ray: Ray, line: Line): Ray | null {
+        let normals: Vector2f = this.getNormals(line)
+
+        let angleDelta = ray.angle - normals.x
+        let angleReflection = normals.y - ray.angle
+
+        if (Math.abs(angleDelta) > Math.PI / 2)
+        {
+            angleDelta = ray.angle - normals.y
+            angleReflection = normals.x - ray.angle
+        }
+
+        let p: Vector2f | null = this.getRayLineIntersection(ray, line)
+
+        if (p == null) {
+            return null
+        }
+
+        return new Ray(p.x, p.y, angleReflection)
     }
 
     public lineFromRay(ray: Ray): Line {
