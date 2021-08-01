@@ -130,6 +130,12 @@ describe('geometry', () => {
         expect(r).to.deep.equal(new Ray(100, 100, 3 * Math.PI / 4))
     })
 
-    it('can reflect a ray off a line segment')
+    it('can reflect a ray off a line segment #1', ()=>{
+        let ray: Ray = new Ray(50, 50, Math.PI / 4)
+        let lineSegment: LineSegment = new LineSegment(100, 0, 100, 200)
+
+        let r: Ray | null = Geometry.reflectRayOffLineSegment(ray, lineSegment)
+        expect(r).to.deep.equal(new Ray(100, 100, 3 * Math.PI / 4))
+    })
 
 })

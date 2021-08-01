@@ -53,7 +53,7 @@ abstract class AbstractGeometry_Singleton {
     public abstract getRayLineSegmentIntersection(ray: Ray, lineSegment: LineSegment): Vector2f | null
 
     public abstract reflectRayOffLine(ray: Ray, line: Line): Ray | null
-
+    public abstract reflectRayOffLineSegment(ray: Ray, lineSegment: LineSegment): Ray | null
     public abstract lineFromRay(ray: Ray): Line
     public abstract lineFromLineSegment(lineSegment: LineSegment): Line | null
     public abstract lineAndLineSegmentIntersection(line: Line, lineSegment: LineSegment): Vector2f | null
@@ -176,6 +176,27 @@ class Geometry_Singleton extends AbstractGeometry_Singleton {
         }
 
         return new Ray(p.x, p.y, angleReflection)
+    }
+
+    public reflectRayOffLineSegment(ray: Ray, lineSegment: LineSegment): Ray | null {
+        let line = this.lineFromLineSegment(lineSegment)
+        let reflection = this.reflectRayOffLine(ray, line!)
+
+        if (reflection == null) {
+            return null
+        }
+
+        let lesserx = lineSegment.p0.x < lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+        let greaterx = lineSegment.p0.x > lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+        let lessery = lineSegment.p0.y < lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+        let greatery = lineSegment.p0.y > lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+
+        if (reflection.origin.x > greaterx) return null
+        if (reflection.origin.y > greatery) return null
+        if (reflection.origin.x < lesserx) return null
+        if (reflection.origin.y < lessery) return null
+
+        return reflection
     }
 
     public lineFromRay(ray: Ray): Line {
