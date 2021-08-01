@@ -46,7 +46,12 @@ export class Ray {
 
 abstract class AbstractGeometry_Singleton {
     public abstract getGradientFromAngle(theta: number): number
+    public abstract getAnglesFromGradient(m: number): Vector2f 
     public abstract getLineIntersection(line1: Line, line2: Line): Vector2f | null
+    public abstract getRayLineIntersection(ray: Ray, line: Line): Vector2f | null
+    public abstract getNormals(line: Line): Vector2f
+    public abstract getRayLineSegmentIntersection(ray: Ray, lineSegment: LineSegment): Vector2f | null
+
     public abstract lineFromRay(ray: Ray): Line
     public abstract lineFromLineSegment(lineSegment: LineSegment): Line | null
     public abstract lineAndLineSegmentIntersection(line: Line, lineSegment: LineSegment): Vector2f | null
@@ -61,6 +66,11 @@ class Geometry_Singleton extends AbstractGeometry_Singleton {
         if (result == this.notInfinity)
             result = Infinity
         return result
+    }
+
+    public getAnglesFromGradient(m: number): Vector2f {
+        let theta: number = Math.atan(m)
+        return new Vector2f(theta, theta + Math.PI)
     }
 
     public getLineIntersection(line1: Line, line2: Line): Vector2f | null {
@@ -85,6 +95,64 @@ class Geometry_Singleton extends AbstractGeometry_Singleton {
             y = line1.m * x + line1.yint!
             return new Vector2f(x, y)
         }
+    }
+
+    public getRayLineIntersection(ray: Ray, line: Line): Vector2f | null {
+        let rayLine: Line = this.lineFromRay(ray)
+        let p: Vector2f | null = this.getLineIntersection(rayLine, line);
+
+        if (p == null) {
+            return null
+        }
+
+        if (0 <= ray.angle && ray.angle <= Math.PI) {
+            if (p.y < ray.origin.y) {
+                return null
+            }
+            else {
+                return p
+            }
+        }
+
+        if (Math.PI <= ray.angle && ray.angle <= 2 * Math.PI) {
+            if (p.y > ray.origin.y) {
+                return null
+            }
+            else {
+                return p
+            }
+        }
+
+        return null
+    }
+
+    public getNormals(line: Line): Vector2f {
+            let theta: number = Math.atan(line.m)
+            return new Vector2f(theta + Math.PI / 2, theta + 3 * Math.PI / 2)
+    }
+
+    public getRayLineSegmentIntersection(ray: Ray, lineSegment: LineSegment): Vector2f | null {
+        let line: Line | null = this.lineFromLineSegment(lineSegment)
+
+        if (line == null) return null
+
+        let p: Vector2f | null = this.getRayLineIntersection(ray, line)
+
+        if (p == null) {
+            return null
+        }
+
+        let lesserx = lineSegment.p0.x < lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+        let greaterx = lineSegment.p0.x > lineSegment.p1.x ? lineSegment.p0.x : lineSegment.p1.x
+        let lessery = lineSegment.p0.y < lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+        let greatery = lineSegment.p0.y > lineSegment.p1.y ? lineSegment.p0.y : lineSegment.p1.y
+
+        if (p.x > greaterx) return null
+        if (p.y > greatery) return null
+        if (p.x < lesserx) return null
+        if (p.y < lessery) return null
+
+        return p
     }
 
     public lineFromRay(ray: Ray): Line {

@@ -5,7 +5,7 @@ import { Vector2f } from '../src/geometry/vector2f';
 describe('geometry', () => {
     let delta: number = 0.00001
 
-    it('creates gradients from angles', () => {
+    it('can calculate gradient from an angle', () => {
         let theta: number 
         let m: number 
 
@@ -20,6 +20,12 @@ describe('geometry', () => {
         theta = Math.PI / 4
         m = Geometry.getGradientFromAngle(theta)
         expect(m).to.be.approximately(1, delta)
+    })
+
+    it('can calculate angles from a gradient', ()=>{
+        let m: number = 1
+        let angles: Vector2f = Geometry.getAnglesFromGradient(m)
+        expect(angles).to.deep.equal(new Vector2f(Math.PI / 4, 5 * Math.PI / 4))
     })
 
     it('doesn\'t intersect parallel lines', () => {
@@ -81,10 +87,43 @@ describe('geometry', () => {
         expect(line).to.deep.equal(new Line(0, null, 5))
     })
 
-    it('doesn\'t create lines from single-point line segments', () => {
+    it('doesn\'t create lines from zero-length line segments', () => {
         let lineSegment: LineSegment = new LineSegment(1, 0, 1, 0)
         let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
         expect(line).to.equal(null)
     })
+
+    it('can calculate normals from a line #1', ()=> {
+        let lineSegment: LineSegment = new LineSegment(0, 5, 10, 5)
+        let line: Line | null = Geometry.lineFromLineSegment(lineSegment)
+        let normals: Vector2f = Geometry.getNormals(line!)
+        expect(normals).to.deep.equal(new Vector2f(Math.PI / 2, 3 * Math.PI / 2))
+    })
+
+    it('can detect ray and line intersection #1', ()=>{
+        let ray: Ray = new Ray(50, 50, Math.PI / 4)
+        let line: Line = new Line(Infinity, 100, null)
+        let p: Vector2f | null = Geometry.getRayLineIntersection(ray, line);
+        expect(p).not.to.equal(null)
+        expect(p).to.deep.equal(new Vector2f(100, 100))
+    })
+
+    it('can detect ray and line intersection #2', ()=>{
+        let ray: Ray = new Ray(50, 50, Math.PI / 4)
+        let line: Line = new Line(Infinity, 0, null)
+        let p: Vector2f | null = Geometry.getRayLineIntersection(ray, line);
+        expect(p).to.equal(null)
+    })
+
+    it('can detect ray and line segment intersection', () => {
+        let ray: Ray = new Ray(50, 50, Math.PI / 4)
+        let lineSegment: LineSegment = new LineSegment(100, 0, 100, 200)
+        let p: Vector2f | null = Geometry.getRayLineSegmentIntersection(ray, lineSegment);
+        expect(p).to.deep.equal(new Vector2f(100, 100))
+    })
+
+    it('can reflect a ray off a line')
+
+    it('can reflect a ray off a line segment')
 
 })
