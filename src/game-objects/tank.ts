@@ -36,6 +36,7 @@ export class Tank extends GameObject {
         RenderUtil.drawTank(context, this.position.x, this.position.y, this.size.w, this.size.h, this.rotation);
         RenderUtil.drawCrosshair(context, this.target.x, this.target.y);
         RenderUtil.drawText(context, 50, 50, `rotation: ${this.rotation}`);
+        this.laser.draw(context);
     }
 
     public update(): void {
@@ -43,6 +44,7 @@ export class Tank extends GameObject {
             this.stopY()
         this.move();
         this.faceAimPos();
+        this.laser.update()
     }
 
     public onMouseMove(event: MouseEvent) {
