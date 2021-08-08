@@ -123,11 +123,11 @@ describe('geometry', () => {
     })
 
     it('can reflect a ray off a line', ()=>{
-        let ray: Ray = new Ray(50, 50, Math.PI / 4)
-        let line: Line = new Line(Infinity, 100, null)
+        let ray: Ray = new Ray(300, 300, Math.PI / 4)
+        let line: Line = new Line(Infinity, 1200, null)
 
         let r: Ray | null = Geometry.reflectRayOffLine(ray, line)
-        expect(r).to.deep.equal(new Ray(100, 100, 3 * Math.PI / 4))
+        expect(r).to.be.equal(new Ray(1200, 1200, 3 * Math.PI / 4))
     })
 
     it('can reflect a ray off a line segment #1', ()=>{

@@ -15,25 +15,55 @@ export class Laser extends GameObject {
     constructor(tank: Tank) {
         super();
         this.tank = tank
-        this.firstRay.origin = this.tank.position
+        this.firstRay.origin.x = this.tank.position.x
+        this.firstRay.origin.y = this.tank.position.y
     }
 
     laserStyle: Style = new Style("red", "red", 1, false, true)
 
+
     public draw(context: CanvasRenderingContext2D): void {
+        RenderUtil.drawText(context, 50, 100, `rotation: ${this.firstRay.angle}`);
+
         if (this.points.length < 2)
-            return;
+        {
+            return
+        }
+
+        for (let i = 0; i < this.points.length - 1; i++) {
+            let p1: Vector2f = this.points[i]
+            let p2: Vector2f = this.points[i + 1]
+            RenderUtil.drawLine(context, p1.x, p1.y, p2.x, p2.y, this.laserStyle)
+        }
+
+
+
     }
 
     public update(): void {
-        this.firstRay.angle = this.tank.rotation
+        this.firstRay.origin.x = this.tank.position.x
+        this.firstRay.origin.y = this.tank.position.y
 
-        let maxReflections = 3
+        this.firstRay.angle = this.tank.rotation 
+        let maxReflections = 8
+
+        if (this.firstRay.angle < 0) {
+            this.firstRay.angle += Math.PI * 2
+        }
 
         let rays: Ray[] = []
 
         let i: number = 0
-        let currentRay: Ray | null = this.firstRay
+
+        let lines: Line[] = [
+            new Line(Infinity, 0, null),
+            new Line(Infinity, 1280, null),
+            new Line(0, null, 0),
+            new Line(0, null, 560)
+        ]
+
+        let currentRay: Ray | null = new Ray(this.firstRay.origin.x, this.firstRay.origin.y, 
+            this.firstRay.angle)
 
         while (i < maxReflections) {
 
@@ -42,8 +72,14 @@ export class Laser extends GameObject {
             }
             else break;
 
-            let line: Line = new Line(Infinity, 100, null)
-            currentRay = Geometry.reflectRayOffLine(currentRay, line)
+            let nextRay: Ray | null = null
+
+            for (let line of lines) {
+                nextRay = Geometry.reflectRayOffLine(currentRay, line)
+                if (nextRay != null) {
+                    currentRay = nextRay
+                }
+            }
 
             i++
         }

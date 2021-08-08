@@ -161,12 +161,12 @@ class Geometry_Singleton extends AbstractGeometry_Singleton {
         let normals: Vector2f = this.getNormals(line)
 
         let angleDelta = ray.angle - normals.x
-        let angleReflection = normals.y - ray.angle
+        let angleReflection = normals.y - angleDelta
 
         if (Math.abs(angleDelta) > Math.PI / 2)
         {
             angleDelta = ray.angle - normals.y
-            angleReflection = normals.x - ray.angle
+            angleReflection = normals.x + angleDelta
         }
 
         let p: Vector2f | null = this.getRayLineIntersection(ray, line)

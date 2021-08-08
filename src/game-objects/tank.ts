@@ -44,6 +44,9 @@ export class Tank extends GameObject {
             this.stopY()
         this.move();
         this.faceAimPos();
+        //    this.rotation += 0.05
+        //    if (this.rotation > 2 * Math.PI)
+            //    this.rotation -= 2 * Math.PI
         this.laser.update()
     }
 
